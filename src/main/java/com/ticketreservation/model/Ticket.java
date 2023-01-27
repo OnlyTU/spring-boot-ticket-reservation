@@ -46,7 +46,7 @@ public class Ticket {
 	@JoinColumn(name="user_id",referencedColumnName = "id",nullable = false)
 	private User user;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="trip_id",referencedColumnName = "id",nullable = false)
 	private Trip trip;
 
