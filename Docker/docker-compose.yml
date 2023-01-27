@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    container_name: ticket-db
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=ticket
+      - POSTGRES_PASSWORD=ticket-password
+      - POSTGRES_DB=ticket
+    ports:
+      - '5432:5432'
+    volumes:
+      - ticket_db:/var/lib/ticket-postgresql/data
+volumes:
+  ticket_db:
+    driver: local

@@ -1,4 +1,4 @@
-package com.ticketreservation.model.enums;
+package com.ticketreservation.enums;
 
 public enum PaymentType {
 	CREDIT_CARD,
