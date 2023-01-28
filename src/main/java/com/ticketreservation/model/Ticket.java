@@ -56,5 +56,5 @@ public class Ticket {
 	@JsonSerialize(using=LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@Column(name = "create_date")
-	private LocalDateTime crateDate;
+	private LocalDateTime createDate;
 }

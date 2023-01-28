@@ -26,10 +26,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "users")
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User {
 
 	@Id
