@@ -1,6 +1,5 @@
 package com.ticketreservation.service;
 
-
 import com.ticketreservation.config.RabbitMQConfiguration;
 import com.ticketreservation.controller.UserController;
 import com.ticketreservation.model.User;
@@ -11,7 +10,6 @@ import com.ticketreservation.request.UserUpdateRequest;
 import com.ticketreservation.response.UserResponse;
 import com.ticketreservation.converter.UserConverter;
 import com.ticketreservation.util.PasswordUtil;
-
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import com.ticketreservation.exception.UserNotFoundException;
@@ -61,21 +59,25 @@ public class UserService {
         return userConverter.convert(savedUser);
     }
     public UserResponse update(UserUpdateRequest userUpdateRequest) {
+
         return null;
     }
 
     public String login(LoginRequest loginRequest) {
 
-        User foundUser = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        User foundUser = userRepository.findByEmail(loginRequest.getEmail());
+
+        if(!foundUser.equals(loginRequest)){
+            throw new UserNotFoundException("User not found");
+        }
 
         String passwordHash = PasswordUtil.preparePasswordHash(loginRequest.getPassword());
 
         boolean isValid = PasswordUtil.validatePassword(passwordHash, foundUser.getPassword());
 
         return isValid ? LOGIN_SUCCESS : EMAIL_OR_PASSWORD_WRONG;
-
     }
+
     public Optional<User> getById(Integer userId) {
         return userRepository.findById(userId);
     }

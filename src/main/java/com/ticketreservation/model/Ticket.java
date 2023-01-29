@@ -35,6 +35,7 @@ public class Ticket {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name="id",nullable = false)
 	private Integer id;
 	@Column(name = "male_quantity",nullable = false)
 	private Integer maleQuantity;

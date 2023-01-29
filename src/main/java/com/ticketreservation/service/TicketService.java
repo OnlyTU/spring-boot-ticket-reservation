@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -25,9 +26,10 @@ public class TicketService {
     private static final int MAX_INDIVIDUAL_MALE_QUANTITY = 2;
 
 
+
     private UserService userService;
     private TicketRepository ticketRepository;
-    private  RabbitTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate;
     private RabbitMQConfiguration rabbitMQConfiguration;
     private TicketConverter ticketConverter;
 
@@ -42,7 +44,7 @@ public class TicketService {
     }
 
     public TicketResponse create(TicketRequest ticketRequest) throws Exception{
-        Optional<User>foundUser =userService.getById(ticketRequest.getNo());
+        Optional<User>foundUser = userService.getById(ticketRequest.getNo());
 
         if (foundUser.isPresent()){
             if (UserType.INDIVIDUAL.equals(foundUser.get().getUserType())){
@@ -66,7 +68,7 @@ public class TicketService {
             throw new IllegalArgumentException("\"user does not exist\"");
         }
 
-        Ticket ticket =ticketConverter.convert(ticketRequest);
+        Ticket ticket = ticketConverter.convert(ticketRequest);
 
         if (foundUser.isPresent()){
             ticket.setUser(foundUser.get());
@@ -76,6 +78,10 @@ public class TicketService {
         return ticketConverter.convert(savedTicket);
     }
 
+    public List<TicketResponse> getAllById(int id) {
+        return ticketRepository.findAllByUserId(id).stream().map(ticketConverter::convert).collect(Collectors.toList());
+    }
+
     public long getAllTickets(Long totalSales){
         Logger logger = Logger.getLogger(TicketService.class.getName());
         logger.log(Level.INFO,"Total ticket sales: {0}");
@@ -83,7 +89,7 @@ public class TicketService {
         logger.log(Level.INFO, "Total ticket counts from db: {0}", count);
         return count;
     }
-    public long getTotalPrice(Long totalPrice){
+    public long getTotalSalesRevenue(Long totalPrice){
         Logger logger = Logger.getLogger(TicketService.class.getName());
         logger.log(Level.INFO,"Total sales revenue: {0}");
         long count = ticketRepository.countByTotalPrice(totalPrice);

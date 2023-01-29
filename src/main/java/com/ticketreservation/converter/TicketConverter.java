@@ -1,7 +1,6 @@
 package com.ticketreservation.converter;
 
 import com.ticketreservation.model.Ticket;
-import com.ticketreservation.model.Trip;
 import com.ticketreservation.request.TicketRequest;
 import com.ticketreservation.response.TicketResponse;
 import org.springframework.stereotype.Component;
@@ -11,11 +10,11 @@ public class TicketConverter {
 
     public Ticket convert(TicketRequest ticketRequest){
         Ticket ticket = new Ticket();
-        ticket.setId(ticket.getId());
-        ticket.setTrip(ticket.getTrip());
-        ticket.setMaleQuantity(ticket.getMaleQuantity());
-        ticket.setMaleQuantity(ticket.getFemaleQuantity());
-        ticket.setPaymentType(ticket.getPaymentType());
+        ticket.setId(ticketRequest.getNo());
+        ticket.setTrip(ticketRequest.getTrip());
+        ticket.setMaleQuantity(ticketRequest.getMaleQuantity());
+        ticket.setMaleQuantity(ticketRequest.getFemaleQuantity());
+        ticket.setPaymentType(ticketRequest.getPaymentType());
         return ticket;
     }
 

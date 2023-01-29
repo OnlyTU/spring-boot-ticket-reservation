@@ -16,6 +16,7 @@ public class Trip {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name="id",nullable = false)
 	private int id;
 	@Column(name = "where_from",nullable = false)
 	private String whereFrom;
@@ -26,9 +27,12 @@ public class Trip {
 	@Column(name = "departure_date",nullable = false)
 	private LocalDateTime departureDate;
 	@Column(name = "seating_capacity",nullable = false)
-	private int seatingCapacity;
+	private Integer seatingCapacity;
 	@Column(name = "occupied_capacity",nullable = false)
-	private int occupiedCapacity;
+	private Integer occupiedCapacity;
+	@ManyToOne
+	@JoinColumn(name="admin_id",referencedColumnName = "id",nullable = false)
+	private User user;
 	@Enumerated(EnumType.STRING)
 	private VehicleType vehicleType;
 

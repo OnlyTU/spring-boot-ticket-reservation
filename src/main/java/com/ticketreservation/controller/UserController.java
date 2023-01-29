@@ -30,9 +30,10 @@ public class UserController {
         UserResponse userResponse =userService.update(userUpdateRequest);
         return ResponseEntity.ok(userResponse);
     }
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/api/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
+
 
 }

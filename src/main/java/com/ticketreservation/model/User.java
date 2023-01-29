@@ -14,12 +14,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.ticketreservation.enums.RoleType;
 import com.ticketreservation.enums.UserType;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,23 +32,20 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name="id")
+	@Column(name="id",nullable = false)
 	private Integer id;
 	@Column(name = "name")
 	private String name;
 	@Column(name = "surname")
 	private String surname;
-	@Column(name = "email")
+	@Column(name = "email",nullable = false)
 	private String email;
-	@Column(name = "password")
+	@Column(name = "password",nullable = false)
 	private String password;
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
-
-	//@Enumerated(EnumType.STRING)
-	//private RoleType roleType;
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime createDate;
 
