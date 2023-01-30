@@ -12,15 +12,16 @@ import com.ticketreservation.request.TripRequest;
 import com.ticketreservation.response.TripResponse;
 import org.springframework.stereotype.Service;
 
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class TripService {
-    private static final int MAX_SEATING_CAPACITY_PLANE = 189;
-    private static final int MAX_SEATING_CAPACITY_BUS = 45;
 
     private UserService userService;
     private TicketService ticketService;
@@ -41,18 +42,13 @@ public class TripService {
 
         if (foundUser.isPresent()){
             if (UserType.ADMIN.equals(foundUser.get().getUserType())){
-                List<Trip> tripList = tripRepository.findAllByTripId(foundUser.get().getId());
-                if (VehicleType.BUS.equals(tripRequest.getVehicleType()) && MAX_SEATING_CAPACITY_BUS <= tripList.size()){
-                    logger.log(Level.WARNING,"Max seating capacity for bus.");
-                    throw new Exception("Max seating capacity for bus.");
-                }
-                if (VehicleType.PLANE.equals(tripRequest.getVehicleType()) && MAX_SEATING_CAPACITY_PLANE <= tripList.size()){
-                    logger.log(Level.WARNING,"Max seating capacity for plane.");
-                    throw new Exception("Max seating capacity for plane.");
-                }
+                logger.log(Level.INFO,"Admin");
+                throw new Exception("Not Admin");
             }
         }
-
+        else {
+            throw new Exception("User not found");
+        }
         Trip trip = tripConverter.convert(tripRequest);
 
         if (foundUser.isPresent()){
@@ -60,9 +56,9 @@ public class TripService {
         }
 
         Trip savedTrip = tripRepository.save(trip);
-
         return tripConverter.convert(savedTrip);
     }
+
     public void delete(Integer id) throws Exception {
         Logger logger = Logger.getLogger(TripController.class.getName());
 
@@ -74,4 +70,16 @@ public class TripService {
         throw new Exception("Trip canceled.");
     }
 
+    public List<TripResponse> getAllTripsByWhereFrom(String whereFrom) {
+        return tripRepository.findAllByWhereFrom(whereFrom).stream().map(tripConverter::convert).collect(Collectors.toList());
+    }
+    public List<TripResponse> getAllTripsByVehicleTypeBus() {
+        return tripRepository.findAllByVehicleTypeBus(VehicleType.BUS).stream().map(tripConverter::convert).collect(Collectors.toList());
+    }
+    public List<TripResponse> getAllTripsByVehicleTypePlane() {
+        return tripRepository.findAllByVehicleTypePlane(VehicleType.PLANE).stream().map(tripConverter::convert).collect(Collectors.toList());
+    }
+    public List<TripResponse> getAllTripsByDate(LocalDate date) {
+        return tripRepository.findAllByDepartureDate(date.atStartOfDay()).stream().map(tripConverter::convert).collect(Collectors.toList());
+    }
 }

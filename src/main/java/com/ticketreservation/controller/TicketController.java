@@ -3,6 +3,8 @@ package com.ticketreservation.controller;
 
 import com.ticketreservation.repository.UserRepository;
 import com.ticketreservation.request.TicketRequest;
+import com.ticketreservation.request.TripRequest;
+import com.ticketreservation.request.UserRequest;
 import com.ticketreservation.response.TicketResponse;
 
 import com.ticketreservation.service.TicketService;
@@ -39,8 +41,8 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTotalSalesRevenue(totalRevenue));
     }
     @PostMapping
-    public ResponseEntity<TicketResponse> create(@RequestBody TicketRequest ticketRequest) throws Exception{
-        TicketResponse ticket = ticketService.create(ticketRequest);
+    public ResponseEntity<TicketResponse> create(@RequestBody TicketRequest ticketRequest, @RequestBody TripRequest tripRequest, @RequestBody UserRequest userRequest) throws Exception{
+        TicketResponse ticket = ticketService.create(ticketRequest,tripRequest,userRequest);
         return new ResponseEntity<>(ticket, HttpStatus.CREATED);
     }
 

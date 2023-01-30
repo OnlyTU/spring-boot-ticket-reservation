@@ -11,7 +11,7 @@ public interface TripRepository extends JpaRepository<Trip,String> {
     List<Trip> findAllByVehicleTypeBus(VehicleType bus);
     List<Trip> findAllByVehicleTypePlane(VehicleType plane);
     List<Trip> findAllByDepartureDate(LocalDateTime localDateTime);
-    List<Trip>findProvinceByWhereFrom(String whereFrom);
+    List<Trip>findAllByWhereFrom(String whereFrom);
     List<Trip> findAllByTripId(Integer id);
 
     List<Trip>findById(Integer id);

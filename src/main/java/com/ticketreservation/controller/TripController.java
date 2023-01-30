@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,22 +23,26 @@ public class TripController {
 
     @GetMapping(value = "/{whereFrom}")
     public ResponseEntity<List<TripResponse>> getAllTripsByWhereFrom(@PathVariable String whereFrom){
-        return null;
+        List<TripResponse> trips = tripService.getAllTripsByWhereFrom(whereFrom);
+        return ResponseEntity.ok(trips);
     }
 
     @GetMapping(value = "/vehicleType/bus")
     public ResponseEntity<List<TripResponse>>getAllTripsByVehicleTypeBus(){
-        return null;
+        List<TripResponse> trips = tripService.getAllTripsByVehicleTypeBus();
+        return ResponseEntity.ok(trips);
     }
 
     @GetMapping(value = "/vehicleType/plane")
     public ResponseEntity<List<TripResponse>>getAllTripsByVehicleTypePlane(){
-        return null;
+        List<TripResponse> trips = tripService.getAllTripsByVehicleTypePlane();
+        return ResponseEntity.ok(trips);
     }
 
     @GetMapping(value = "/{date}")
-    public ResponseEntity<List<TripResponse>>getAllTripsByVehicleTypes(@PathVariable String date){
-        return null;
+    public ResponseEntity<List<TripResponse>>getAllTripsByDate(@PathVariable LocalDateTime date){
+        List<TripResponse> trips = tripService.getAllTripsByDate(LocalDate.from(date));
+        return ResponseEntity.ok(trips);
     }
     @PostMapping
     public ResponseEntity<TripResponse> create(@RequestBody TripRequest tripRequest) throws Exception{

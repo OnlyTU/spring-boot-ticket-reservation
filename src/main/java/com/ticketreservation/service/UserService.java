@@ -58,6 +58,7 @@ public class UserService {
 
         return userConverter.convert(savedUser);
     }
+
     public UserResponse update(UserUpdateRequest userUpdateRequest) {
 
         return null;
