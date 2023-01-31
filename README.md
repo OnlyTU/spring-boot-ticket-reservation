@@ -22,7 +22,7 @@ This project is a ticket reservation system project.
 
 ## Diagram
 
-**System Diagram**
+**System Diagram :**
 
 ![Diagram](https://user-images.githubusercontent.com/59655833/215844550-a0ac942a-3d85-47cd-bd1e-4254290aa30f.png)
 
